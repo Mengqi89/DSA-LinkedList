@@ -163,6 +163,7 @@ function main() {
     listSize(SLL)
     console.log(isEmpty(SLL))
     console.log(findPrevious(SLL, 'Husker'))
+    console.log(findLast(SLL))
 }
 
 main()
@@ -201,6 +202,19 @@ function findPrevious(list, ref) {
     while (currentNode !== null) {
         if (currentNode.next.value === ref) {
             return currentNode
+        } else {
+            currentNode = currentNode.next
+        }
+    }
+    return null
+}
+
+function findLast(list) {
+    let currentNode = list.head
+
+    while (currentNode !== null) {
+        if (currentNode.next === null) {
+            return currentNode.value
         } else {
             currentNode = currentNode.next
         }
