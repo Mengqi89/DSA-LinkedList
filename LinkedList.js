@@ -28,9 +28,38 @@ class LinkedList {
             tempNode.next = new _Node(item, null)
         }
     }
+
+    //helper function to get the node at a specified index
+    getAt(index) {
+        let counter = 0
+        let node = this.head
+        while (node) {
+            if (counter === index) {
+                return node
+            }
+            counter++
+            node = node.next
+        }
+        return null
+    }
+
     // Implement a function called insertAt() that inserts an item at a specific position in the linked list.
     insertAt(data, index) {
-        let currNode = this.head
+
+        if (!this.head) {
+            this.head = new _Node(data, null)
+            return
+        }
+
+        if (index === 0) {
+            this.head = new _Node(data, this.head)
+            return
+        }
+
+        const previous = this.getAt(index - 1)
+        let newNode = new _Node(data, previous.next)
+        previous.next = newNode
+        return
     }
     // Implement a function called insertBefore() in the class that inserts a new node before a given node containing a key.
     insertBefore(data, ref) {
@@ -127,12 +156,54 @@ function main() {
     SLL.insertLast('Husker')
     SLL.insertLast('Starbuck')
     SLL.insertLast('Tauhida')
-    // console.log(SLL.head.next.next.next.next.next.value)
-    // console.log(SLL.head.next.next.next.next.next.value)
     SLL.remove('Tauhida')
-    // console.log(SLL.head.next.next.next.next)
-    SLL.insertAfter('newItem', 'Helo')
-    console.log(SLL.head.next.next.next.value)
+
+    console.log(SLL.head.value)
+    displayLinkedList(SLL)
+    listSize(SLL)
+    console.log(isEmpty(SLL))
+    console.log(findPrevious(SLL, 'Husker'))
 }
 
 main()
+
+function displayLinkedList(list) {
+    let current = list.head
+    let str = ''
+    while (current) {
+        str += current.value + ' '
+        current = current.next
+    }
+    console.log(str)
+}
+
+function listSize(list) {
+    let current = list.head
+    let counter = 0
+    while (current) {
+        counter++
+        current = current.next
+    }
+    console.log(counter)
+}
+
+function isEmpty(list) {
+    if (list.head === null) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function findPrevious(list, ref) {
+    let currentNode = list.head
+
+    while (currentNode !== null) {
+        if (currentNode.next.value === ref) {
+            return currentNode
+        } else {
+            currentNode = currentNode.next
+        }
+    }
+    return null
+}
